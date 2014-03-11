@@ -1,0 +1,174 @@
+# STAT 540: Seminar 7
+# RNA-seq Analysis: Differential expression analysis
+# Date: Wed Feb 26
+# By: Jessica Pilsworth
+========================================================
+
+Load library 
+```{r}
+library(edgeR)
+```
+
+Load data
+```{r}
+dat <- read.table("bottomly_count_table.tsv", header = TRUE, row.names = 1)
+des <- read.table("bottomly_phenodata.tsv", header = TRUE, row.names = 1)
+str(dat)
+show(des)
+all(rownames(des) == colnames(dat))
+```
+
+# edgeR
+
+To create a 'group' object describing which group each sample belongs to
+```{r}
+with(des, table(strain))
+group <- factor(c(rep("1", 10), rep("2", 11)))
+group
+```
+
+To produce an object of type DGEList 
+```{r}
+dge.glm <- DGEList(counts = dat, group = group)
+str(dge.glm)
+```
+
+DGELIst object has two components, one is a matrix call 'counts' storing the count data and the other is a data.frame called 'samples' storing information for samples.
+```{r}
+names(dge.glm)
+dge.glm[["samples"]]
+nrow(dge.glm[[1]])
+ncol(dge.glm[[1]])
+```
+
+To create design model
+```{r}
+design <- model.matrix(~group)
+design
+```
+
+To estimate common dispersion for negative binomial GLMs
+```{r}
+dge.glm.com.disp <- estimateGLMCommonDisp(dge.glm, design, verbose = TRUE)
+```
+
+To estimate trended dispersion for negative binomial GLMs
+```{r}
+dge.glm.trend.disp <- estimateGLMTrendedDisp(dge.glm.com.disp, design)
+```
+
+Empirical bayes tagwise dispersions ofr negative binomial GLMs
+```{r}
+dge.glm.tag.disp <- estimateGLMTagwiseDisp(dge.glm.trend.disp, design)
+```
+
+To plot the tagwise dispersion against log2-CPM (counts per million)
+```{r fig.width=7, fig.height=6}
+plotBCV(dge.glm.tag.disp)
+```
+
+To fit the genewise negative binomial generlaized linear model
+```{r}
+fit <- glmFit(dge.glm.tag.disp, design)
+colnames(coef(fit))
+lrt <- glmLRT(fit, coef = 2)
+```
+
+Table of the top differentially expressed tags
+```{r}
+topTags(lrt)
+tt.glm <- topTags(lrt, n = Inf)
+class(tt.glm)
+```
+
+Number of rows in the table
+```{r}
+nrow(tt.glm$table[tt.glm$table$FDR < 0.01, ])
+```
+
+To find the samples with an FDR less than 1-e50
+```{r}
+interestingSamples <- rownames(tt.glm$table[tt.glm$table$FDR < 1e-50, ])
+cpm(dge.glm.tag.disp)[interestingSamples, ]
+```
+
+Summary of multiple testing across genes and contrasts
+```{r}
+summary(de.glm <- decideTestsDGE(lrt, p = 0.05, adjust = "BH"))
+```
+
+To plot the tagwise log fold changes against log-cpm
+```{r fig.width=7, fig.height=6}
+tags.glm <- rownames(dge.glm.tag.disp)[as.logical(de.glm)]
+plotSmear(lrt, de.tags = tags.glm)
+abline(h = c(-2, 2), col = "blue")
+```
+
+# DESeq
+
+Load library 
+```{r}
+library(DESeq)
+```
+
+Read the same count table data and grouping information
+```{r}
+deSeqDat <- newCountDataSet(dat, group)
+head(counts(deSeqDat))
+```
+
+To estimate the size factors to account for differences in library coverage and estimate the variance
+```{r}
+deSeqDat <- estimateSizeFactors(deSeqDat)
+sizeFactors(deSeqDat)
+```
+
+To estimate dispersions
+```{r}
+deSeqDat <- estimateDispersions(deSeqDat)
+```
+
+To plot the estimated dispersions against the mean normalized counts
+```{r fig.width=7, fig.height=6}
+plotDispEsts(deSeqDat)
+```
+
+To fit the model and examine the results
+```{r}
+results <- nbinomTest(deSeqDat, levels(group)[1], levels(group)[2])
+str(results)
+```
+
+To plot the results
+```{r fig.width=7, fig.height=6}
+plotMA(results)
+```
+
+# Voom & limma
+
+Load library
+```{r}
+library(limma)
+```
+
+To calculate normalization factors to align columns of a count matrix & plot
+```{r fig.width=7, fig.height=6}
+norm.factor <- calcNormFactors(dat)
+dat.voomed <- voom(dat, design, plot = TRUE, lib.size = colSums(dat) * norm.factor)
+```
+
+```{r}
+dat.voomed
+```
+
+To fit a linear model 
+```{r}
+fit <- lmFit(dat.voomed, design)
+fit <- eBayes(fit)
+```
+
+To get top hits
+```{r}
+topTable(fit)
+```
+

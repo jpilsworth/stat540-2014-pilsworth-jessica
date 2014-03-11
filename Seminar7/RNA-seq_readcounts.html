@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>STAT 540: Seminar 7</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<h1>STAT 540: Seminar 7</h1>
+
+<h1>RNA-seq Analysis: Getting Read Counts</h1>
+
+<h1>Date: Wed Feb 26</h1>
+
+<h1>By: Jessica Pilsworth</h1>
+
+<h1></h1>
+
+<p>Load libraries</p>
+
+<pre><code class="r">library(ShortRead)
+</code></pre>
+
+<pre><code>## Loading required package: BiocGenerics
+## Loading required package: parallel
+## 
+## Attaching package: &#39;BiocGenerics&#39;
+## 
+## The following objects are masked from &#39;package:parallel&#39;:
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB
+## 
+## The following object is masked from &#39;package:stats&#39;:
+## 
+##     xtabs
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, append, as.data.frame, as.vector, cbind,
+##     colnames, duplicated, eval, evalq, Filter, Find, get,
+##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
+##     table, tapply, union, unique, unlist
+## 
+## Loading required package: IRanges
+## Loading required package: GenomicRanges
+## Loading required package: XVector
+## Loading required package: Biostrings
+## Loading required package: lattice
+## Loading required package: Rsamtools
+</code></pre>
+
+<pre><code class="r">library(Rsamtools)
+library(easyRNASeq)
+</code></pre>
+
+<pre><code>## Loading required package: genomeIntervals
+## Loading required package: intervals
+## 
+## Attaching package: &#39;intervals&#39;
+## 
+## The following object is masked from &#39;package:Biostrings&#39;:
+## 
+##     type
+## 
+## The following object is masked from &#39;package:GenomicRanges&#39;:
+## 
+##     reduce
+## 
+## The following objects are masked from &#39;package:IRanges&#39;:
+## 
+##     expand, reduce
+</code></pre>
+
+<pre><code>## Warning: replacing previous import by &#39;intervals::coerce&#39; when loading &#39;genomeIntervals&#39;
+## Warning: replacing previous import by &#39;intervals::initialize&#39; when loading &#39;genomeIntervals&#39;
+</code></pre>
+
+<pre><code>## Loading required package: Biobase
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.
+## 
+## Loading required package: biomaRt
+## Loading required package: edgeR
+## Loading required package: limma
+## 
+## Attaching package: &#39;limma&#39;
+## 
+## The following object is masked from &#39;package:BiocGenerics&#39;:
+## 
+##     plotMA
+## 
+## Loading required package: DESeq
+## Loading required package: locfit
+## locfit 1.5-9.1    2013-03-22
+## 
+## Attaching package: &#39;locfit&#39;
+## 
+## The following objects are masked from &#39;package:GenomicRanges&#39;:
+## 
+##     left, right
+## 
+##     Welcome to &#39;DESeq&#39;. For improved performance, usability and
+##     functionality, please consider migrating to &#39;DESeq2&#39;.
+</code></pre>
+
+<p>Load data</p>
+
+<pre><code class="r">bamDat &lt;- readAligned(&quot;drosophilaMelanogasterSubset.bam&quot;, type = &quot;BAM&quot;)
+str(bamDat)
+</code></pre>
+
+<pre><code>## Formal class &#39;AlignedRead&#39; [package &quot;ShortRead&quot;] with 8 slots
+##   ..@ chromosome  : Factor w/ 15 levels &quot;chrYHet&quot;,&quot;chrM&quot;,..: 2 2 2 2 2 2 2 2 2 2 ...
+##   ..@ position    : int [1:64206] 548 1497 1506 1528 1540 1552 1552 1555 1559 1566 ...
+##   ..@ strand      : Factor w/ 3 levels &quot;+&quot;,&quot;-&quot;,&quot;*&quot;: 2 1 1 1 1 1 1 1 2 2 ...
+##   ..@ alignQuality:Formal class &#39;NumericQuality&#39; [package &quot;ShortRead&quot;] with 1 slots
+##   .. .. ..@ quality: int [1:64206] 132 132 127 130 130 122 132 132 132 132 ...
+##   ..@ alignData   :Formal class &#39;AlignedDataFrame&#39; [package &quot;ShortRead&quot;] with 4 slots
+##   .. .. ..@ varMetadata      :&#39;data.frame&#39;:  1 obs. of  1 variable:
+##   .. .. .. ..$ labelDescription: chr &quot;Type of read; see ?scanBam&quot;
+##   .. .. ..@ data             :&#39;data.frame&#39;:  64206 obs. of  1 variable:
+##   .. .. .. ..$ flag: int [1:64206] 16 0 0 0 0 0 0 0 16 16 ...
+##   .. .. ..@ dimLabels        : chr [1:2] &quot;readName&quot; &quot;alignColumn&quot;
+##   .. .. ..@ .__classVersion__:Formal class &#39;Versions&#39; [package &quot;Biobase&quot;] with 1 slots
+##   .. .. .. .. ..@ .Data:List of 1
+##   .. .. .. .. .. ..$ : int [1:3] 1 1 0
+##   ..@ quality     :Formal class &#39;FastqQuality&#39; [package &quot;ShortRead&quot;] with 1 slots
+##   .. .. ..@ quality:Formal class &#39;BStringSet&#39; [package &quot;Biostrings&quot;] with 5 slots
+##   .. .. .. .. ..@ pool           :Formal class &#39;SharedRaw_Pool&#39; [package &quot;XVector&quot;] with 2 slots
+##   .. .. .. .. .. .. ..@ xp_list                    :List of 1
+##   .. .. .. .. .. .. .. ..$ :&lt;externalptr&gt; 
+##   .. .. .. .. .. .. ..@ .link_to_cached_object_list:List of 1
+##   .. .. .. .. .. .. .. ..$ :&lt;environment: 0x10a1e7830&gt; 
+##   .. .. .. .. ..@ ranges         :Formal class &#39;GroupedIRanges&#39; [package &quot;XVector&quot;] with 7 slots
+##   .. .. .. .. .. .. ..@ group          : int [1:64206] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. .. .. .. .. .. ..@ start          : int [1:64206] 1 37 73 109 145 181 217 253 289 325 ...
+##   .. .. .. .. .. .. ..@ width          : int [1:64206] 36 36 36 36 36 36 36 36 36 36 ...
+##   .. .. .. .. .. .. ..@ NAMES          : NULL
+##   .. .. .. .. .. .. ..@ elementType    : chr &quot;integer&quot;
+##   .. .. .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. .. .. ..@ metadata       : list()
+##   .. .. .. .. ..@ elementType    : chr &quot;BString&quot;
+##   .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. ..@ metadata       : list()
+##   ..@ sread       :Formal class &#39;DNAStringSet&#39; [package &quot;Biostrings&quot;] with 5 slots
+##   .. .. ..@ pool           :Formal class &#39;SharedRaw_Pool&#39; [package &quot;XVector&quot;] with 2 slots
+##   .. .. .. .. ..@ xp_list                    :List of 1
+##   .. .. .. .. .. ..$ :&lt;externalptr&gt; 
+##   .. .. .. .. ..@ .link_to_cached_object_list:List of 1
+##   .. .. .. .. .. ..$ :&lt;environment: 0x10a1e7830&gt; 
+##   .. .. ..@ ranges         :Formal class &#39;GroupedIRanges&#39; [package &quot;XVector&quot;] with 7 slots
+##   .. .. .. .. ..@ group          : int [1:64206] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. .. .. .. ..@ start          : int [1:64206] 1 37 73 109 145 181 217 253 289 325 ...
+##   .. .. .. .. ..@ width          : int [1:64206] 36 36 36 36 36 36 36 36 36 36 ...
+##   .. .. .. .. ..@ NAMES          : NULL
+##   .. .. .. .. ..@ elementType    : chr &quot;integer&quot;
+##   .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. ..@ metadata       : list()
+##   .. .. ..@ elementType    : chr &quot;DNAString&quot;
+##   .. .. ..@ elementMetadata: NULL
+##   .. .. ..@ metadata       : list()
+##   ..@ id          :Formal class &#39;BStringSet&#39; [package &quot;Biostrings&quot;] with 5 slots
+##   .. .. ..@ pool           :Formal class &#39;SharedRaw_Pool&#39; [package &quot;XVector&quot;] with 2 slots
+##   .. .. .. .. ..@ xp_list                    :List of 1
+##   .. .. .. .. .. ..$ :&lt;externalptr&gt; 
+##   .. .. .. .. ..@ .link_to_cached_object_list:List of 1
+##   .. .. .. .. .. ..$ :&lt;environment: 0x10a1e7830&gt; 
+##   .. .. ..@ ranges         :Formal class &#39;GroupedIRanges&#39; [package &quot;XVector&quot;] with 7 slots
+##   .. .. .. .. ..@ group          : int [1:64206] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. .. .. .. ..@ start          : int [1:64206] 1 29 57 85 114 144 173 202 230 260 ...
+##   .. .. .. .. ..@ width          : int [1:64206] 28 28 28 29 30 29 29 28 30 30 ...
+##   .. .. .. .. ..@ NAMES          : NULL
+##   .. .. .. .. ..@ elementType    : chr &quot;integer&quot;
+##   .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. ..@ metadata       : list()
+##   .. .. ..@ elementType    : chr &quot;BString&quot;
+##   .. .. ..@ elementMetadata: NULL
+##   .. .. ..@ metadata       : list()
+</code></pre>
+
+<p>To index a bam file</p>
+
+<pre><code class="r">indexFile &lt;- indexBam(&quot;drosophilaMelanogasterSubset.bam&quot;)
+</code></pre>
+
+<p>To filter reads with at most 2N&#39;s</p>
+
+<pre><code class="r">nFilt &lt;- nFilter(2)
+</code></pre>
+
+<p>To filter reads which have been aligned to the reference genome</p>
+
+<pre><code class="r">chrFilt &lt;- chromosomeFilter(regex = &quot;chr&quot;)
+</code></pre>
+
+<p>To create a new filter which checks that both conditions are satisfied i.e. a read has 2 or fewer N&#39;s and is aligned to the reference genome</p>
+
+<pre><code class="r">filt &lt;- compose(nFilt, chrFilt)
+</code></pre>
+
+<p>Apply the filter to extract the relevant subset of data</p>
+
+<pre><code class="r">bamDatFiltered &lt;- bamDat[filt(bamDat)]
+</code></pre>
+
+<p>To examine the filter bam file</p>
+
+<pre><code class="r">str(bamDatFiltered)
+</code></pre>
+
+<pre><code>## Formal class &#39;AlignedRead&#39; [package &quot;ShortRead&quot;] with 8 slots
+##   ..@ chromosome  : Factor w/ 7 levels &quot;chrM&quot;,&quot;chr2L&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##   ..@ position    : int [1:56883] 548 1497 1506 1528 1540 1552 1552 1555 1559 1566 ...
+##   ..@ strand      : Factor w/ 3 levels &quot;+&quot;,&quot;-&quot;,&quot;*&quot;: 2 1 1 1 1 1 1 1 2 2 ...
+##   ..@ alignQuality:Formal class &#39;NumericQuality&#39; [package &quot;ShortRead&quot;] with 1 slots
+##   .. .. ..@ quality: int [1:56883] 132 132 127 130 130 122 132 132 132 132 ...
+##   ..@ alignData   :Formal class &#39;AlignedDataFrame&#39; [package &quot;ShortRead&quot;] with 4 slots
+##   .. .. ..@ varMetadata      :&#39;data.frame&#39;:  1 obs. of  1 variable:
+##   .. .. .. ..$ labelDescription: chr &quot;Type of read; see ?scanBam&quot;
+##   .. .. ..@ data             :&#39;data.frame&#39;:  56883 obs. of  1 variable:
+##   .. .. .. ..$ flag: int [1:56883] 16 0 0 0 0 0 0 0 16 16 ...
+##   .. .. ..@ dimLabels        : chr [1:2] &quot;readName&quot; &quot;alignColumn&quot;
+##   .. .. ..@ .__classVersion__:Formal class &#39;Versions&#39; [package &quot;Biobase&quot;] with 1 slots
+##   .. .. .. .. ..@ .Data:List of 1
+##   .. .. .. .. .. ..$ : int [1:3] 1 1 0
+##   ..@ quality     :Formal class &#39;FastqQuality&#39; [package &quot;ShortRead&quot;] with 1 slots
+##   .. .. ..@ quality:Formal class &#39;BStringSet&#39; [package &quot;Biostrings&quot;] with 5 slots
+##   .. .. .. .. ..@ pool           :Formal class &#39;SharedRaw_Pool&#39; [package &quot;XVector&quot;] with 2 slots
+##   .. .. .. .. .. .. ..@ xp_list                    :List of 1
+##   .. .. .. .. .. .. .. ..$ :&lt;externalptr&gt; 
+##   .. .. .. .. .. .. ..@ .link_to_cached_object_list:List of 1
+##   .. .. .. .. .. .. .. ..$ :&lt;environment: 0x10a1e7830&gt; 
+##   .. .. .. .. ..@ ranges         :Formal class &#39;GroupedIRanges&#39; [package &quot;XVector&quot;] with 7 slots
+##   .. .. .. .. .. .. ..@ group          : int [1:56883] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. .. .. .. .. .. ..@ start          : int [1:56883] 1 37 73 109 145 181 217 253 289 325 ...
+##   .. .. .. .. .. .. ..@ width          : int [1:56883] 36 36 36 36 36 36 36 36 36 36 ...
+##   .. .. .. .. .. .. ..@ NAMES          : NULL
+##   .. .. .. .. .. .. ..@ elementType    : chr &quot;integer&quot;
+##   .. .. .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. .. .. ..@ metadata       : list()
+##   .. .. .. .. ..@ elementType    : chr &quot;BString&quot;
+##   .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. ..@ metadata       : list()
+##   ..@ sread       :Formal class &#39;DNAStringSet&#39; [package &quot;Biostrings&quot;] with 5 slots
+##   .. .. ..@ pool           :Formal class &#39;SharedRaw_Pool&#39; [package &quot;XVector&quot;] with 2 slots
+##   .. .. .. .. ..@ xp_list                    :List of 1
+##   .. .. .. .. .. ..$ :&lt;externalptr&gt; 
+##   .. .. .. .. ..@ .link_to_cached_object_list:List of 1
+##   .. .. .. .. .. ..$ :&lt;environment: 0x10a1e7830&gt; 
+##   .. .. ..@ ranges         :Formal class &#39;GroupedIRanges&#39; [package &quot;XVector&quot;] with 7 slots
+##   .. .. .. .. ..@ group          : int [1:56883] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. .. .. .. ..@ start          : int [1:56883] 1 37 73 109 145 181 217 253 289 325 ...
+##   .. .. .. .. ..@ width          : int [1:56883] 36 36 36 36 36 36 36 36 36 36 ...
+##   .. .. .. .. ..@ NAMES          : NULL
+##   .. .. .. .. ..@ elementType    : chr &quot;integer&quot;
+##   .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. ..@ metadata       : list()
+##   .. .. ..@ elementType    : chr &quot;DNAString&quot;
+##   .. .. ..@ elementMetadata: NULL
+##   .. .. ..@ metadata       : list()
+##   ..@ id          :Formal class &#39;BStringSet&#39; [package &quot;Biostrings&quot;] with 5 slots
+##   .. .. ..@ pool           :Formal class &#39;SharedRaw_Pool&#39; [package &quot;XVector&quot;] with 2 slots
+##   .. .. .. .. ..@ xp_list                    :List of 1
+##   .. .. .. .. .. ..$ :&lt;externalptr&gt; 
+##   .. .. .. .. ..@ .link_to_cached_object_list:List of 1
+##   .. .. .. .. .. ..$ :&lt;environment: 0x10a1e7830&gt; 
+##   .. .. ..@ ranges         :Formal class &#39;GroupedIRanges&#39; [package &quot;XVector&quot;] with 7 slots
+##   .. .. .. .. ..@ group          : int [1:56883] 1 1 1 1 1 1 1 1 1 1 ...
+##   .. .. .. .. ..@ start          : int [1:56883] 1 29 57 85 114 144 173 202 230 260 ...
+##   .. .. .. .. ..@ width          : int [1:56883] 28 28 28 29 30 29 29 28 30 30 ...
+##   .. .. .. .. ..@ NAMES          : NULL
+##   .. .. .. .. ..@ elementType    : chr &quot;integer&quot;
+##   .. .. .. .. ..@ elementMetadata: NULL
+##   .. .. .. .. ..@ metadata       : list()
+##   .. .. ..@ elementType    : chr &quot;BString&quot;
+##   .. .. ..@ elementMetadata: NULL
+##   .. .. ..@ metadata       : list()
+</code></pre>
+
+<p>To look at which chromosomes are present and read IDs</p>
+
+<pre><code class="r">levels(chromosome(bamDatFiltered))
+</code></pre>
+
+<pre><code>## [1] &quot;chrM&quot;  &quot;chr2L&quot; &quot;chrX&quot;  &quot;chr3L&quot; &quot;chr4&quot;  &quot;chr2R&quot; &quot;chr3R&quot;
+</code></pre>
+
+<pre><code class="r">id(bamDatFiltered)[1:10]
+</code></pre>
+
+<pre><code>##   A BStringSet instance of length 10
+##      width seq
+##  [1]    28 HWI-EAS225_90320:3:1:141:680
+##  [2]    28 HWI-EAS225_90320:3:1:660:332
+##  [3]    28 HWI-EAS225_90320:3:1:164:226
+##  [4]    29 HWI-EAS225_90320:3:1:1088:176
+##  [5]    30 HWI-EAS225_90320:3:1:1038:1484
+##  [6]    29 HWI-EAS225_90320:3:1:850:1742
+##  [7]    29 HWI-EAS225_90320:3:1:1319:586
+##  [8]    28 HWI-EAS225_90320:3:1:103:631
+##  [9]    30 HWI-EAS225_90320:3:1:1353:1498
+## [10]    30 HWI-EAS225_90320:3:1:1092:1016
+</code></pre>
+
+<p>To view the DNA sequence for the read</p>
+
+<pre><code class="r">sread(bamDatFiltered)[1:10]
+</code></pre>
+
+<pre><code>##   A DNAStringSet instance of length 10
+##      width seq
+##  [1]    36 GGAAATCAAAAATGGAAAGGAGCGGCTCCACTTTTT
+##  [2]    36 AAATCATAAAGATATTGGAACTTTATATTTTATTTT
+##  [3]    36 AGATATTGGAACTTTATATTTTATTTTTGGAGCTTG
+##  [4]    36 ATTTTTGGAGCTTGAGCTGGAATAGTTGGAACATCT
+##  [5]    36 TGAGCTGGAATAGTTGGAACATCTTTAAGAATTTTA
+##  [6]    36 GTTGGAACATCTTTAAGAATTTTAATTAGAGCTGAA
+##  [7]    36 GTTGGAACATCTTTAAGAATTTTAATTCGAGCTGAA
+##  [8]    36 GGAACATCTTTAAGAATTTTAATTCGAGCTGAATTA
+##  [9]    36 GTCCTAATTCAGCTCGAATTAAAATTCTTAAAGATG
+## [10]    36 CCAGGATGTCCTAATTCAGCTCGAATTAAAATTCTT
+</code></pre>
+
+<p>To look at the base qualities</p>
+
+<pre><code class="r">quality(bamDatFiltered)[1:10]
+</code></pre>
+
+<pre><code>## class: FastqQuality
+## quality:
+##   A BStringSet instance of length 10
+##      width seq
+##  [1]    36 BACBCCABBBBBA&gt;8@B@@==&gt;;5-9A&lt;;=7A@@B@
+##  [2]    36 BCBBABBA@@B;B&gt;AB@@&lt;&gt;:AAA9?&gt;?A@A&lt;?A@@
+##  [3]    36 @?8AB&gt;A?=)A=@*8&gt;6/@3&gt;A)/@4&gt;?BA&#39;(-1B=
+##  [4]    36 BBCACCA@-4ABC62?*;A?BBA?B@.8B9?33;+=
+##  [5]    36 ?5@A4::@@55;;89&lt;&#39;6?A8@A=4@=&gt;54&gt;76);A
+##  [6]    36 A8=B;462&gt;;7BCBAA&gt;1;=&lt;/?BA94%&lt;:?(7@9=
+##  [7]    36 BBB&gt;ABB@@BBBBCBCC@7ABBBAABB@B?AAA@=@
+##  [8]    36 =B=ACCBBC8ACCCBBBCCCBB=CAB9=BBBB@2?:
+##  [9]    36 @7ABBBBABBB?BAAB=@CBB;7ABAABBA?@;2=A
+## [10]    36 BB&gt;B?:ABABBBBABCB@@@BB@:@BA;&gt;@;@B?AB
+</code></pre>
+
+<p>To find out the starting (left most) position where the read was aligned on the chromosome</p>
+
+<pre><code class="r">position(bamDatFiltered)[1:10]
+</code></pre>
+
+<pre><code>##  [1]  548 1497 1506 1528 1540 1552 1552 1555 1559 1566
+</code></pre>
+
+<p>To see which strand (forward/+ or reverse/-) the read was aligned to </p>
+
+<pre><code class="r">strand(bamDatFiltered)[1:10]
+</code></pre>
+
+<pre><code>##  [1] - + + + + + + + - -
+## Levels: + - *
+</code></pre>
+
+<p>Load genomic data</p>
+
+<pre><code class="r">library(BSgenome.Dmelanogaster.UCSC.dm3)
+</code></pre>
+
+<pre><code>## Loading required package: BSgenome
+</code></pre>
+
+<p>To get the lengths of the chromosomes in the genome</p>
+
+<pre><code class="r">(chrSizes &lt;- seqlengths(Dmelanogaster))
+</code></pre>
+
+<pre><code>##     chr2L     chr2R     chr3L     chr3R      chr4      chrX      chrU 
+##  23011544  21146708  24543557  27905053   1351857  22422827  10049037 
+##      chrM  chr2LHet  chr2RHet  chr3LHet  chr3RHet   chrXHet   chrYHet 
+##     19517    368872   3288761   2555491   2517507    204112    347038 
+## chrUextra 
+##  29004656
+</code></pre>
+
+<p>Load library and specifiy Drosophila database</p>
+
+<pre><code class="r">library(biomaRt)
+ensembl &lt;- useMart(&quot;ensembl&quot;, dataset = &quot;dmelanogaster_gene_ensembl&quot;)
+</code></pre>
+
+<p>To define a set of fields we are interested for each gene</p>
+
+<pre><code class="r">annotation.fields &lt;- c(&quot;ensembl_gene_id&quot;, &quot;strand&quot;, &quot;chromosome_name&quot;, &quot;start_position&quot;, 
+    &quot;end_position&quot;)
+</code></pre>
+
+<p>To restrict to chr2L</p>
+
+<pre><code class="r">gene.annotation &lt;- getBM(annotation.fields, mart = ensembl, filters = &quot;chromosome_name&quot;, 
+    values = c(&quot;2L&quot;))
+str(gene.annotation)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    2986 obs. of  5 variables:
+##  $ ensembl_gene_id: chr  &quot;FBgn0031208&quot; &quot;FBgn0002121&quot; &quot;FBgn0031209&quot; &quot;FBgn0263584&quot; ...
+##  $ strand         : int  1 -1 -1 1 -1 1 1 1 -1 1 ...
+##  $ chromosome_name: chr  &quot;2L&quot; &quot;2L&quot; &quot;2L&quot; &quot;2L&quot; ...
+##  $ start_position : int  7529 9839 21823 21952 25402 66584 71757 76348 82421 94739 ...
+##  $ end_position   : int  9484 21376 25155 24237 65404 71390 76211 77783 87387 102086 ...
+</code></pre>
+
+<p>To check we only downloaded annotations from chr2L</p>
+
+<pre><code class="r">levels(as.factor(gene.annotation$chromosome))
+</code></pre>
+
+<pre><code>## [1] &quot;2L&quot;
+</code></pre>
+
+<p>Add chr to the annotation data</p>
+
+<pre><code class="r">gene.annotation$chromosome &lt;- paste(&quot;chr&quot;, gene.annotation$chromosome_name, 
+    sep = &quot;&quot;)
+levels(as.factor(gene.annotation$chromosome))
+</code></pre>
+
+<pre><code>## [1] &quot;chr2L&quot;
+</code></pre>
+
+<p>To store the gene annotation information in an IRanges object</p>
+
+<pre><code class="r">gene.range &lt;- RangedData(IRanges(start = gene.annotation$start_position, end = gene.annotation$end_position), 
+    space = gene.annotation$chromosome, strand = gene.annotation$strand, gene = gene.annotation$ensembl_gene_id, 
+    universe = &quot;Dm3&quot;)
+show(gene.range)
+</code></pre>
+
+<pre><code>## RangedData with 2986 rows and 2 value columns across 1 space
+##         space               ranges   |    strand        gene
+##      &lt;factor&gt;            &lt;IRanges&gt;   | &lt;integer&gt; &lt;character&gt;
+## 1       chr2L       [ 7529,  9484]   |         1 FBgn0031208
+## 2       chr2L       [ 9839, 21376]   |        -1 FBgn0002121
+## 3       chr2L       [21823, 25155]   |        -1 FBgn0031209
+## 4       chr2L       [21952, 24237]   |         1 FBgn0263584
+## 5       chr2L       [25402, 65404]   |        -1 FBgn0051973
+## 6       chr2L       [66584, 71390]   |         1 FBgn0067779
+## 7       chr2L       [71757, 76211]   |         1 FBgn0031213
+## 8       chr2L       [76348, 77783]   |         1 FBgn0031214
+## 9       chr2L       [82421, 87387]   |        -1 FBgn0002931
+## ...       ...                  ... ...       ...         ...
+## 2978    chr2L [22690251, 22691008]   |        -1 FBgn0058439
+## 2979    chr2L [22735486, 22736297]   |        -1 FBgn0262947
+## 2980    chr2L [22736952, 22747273]   |         1 FBgn0041004
+## 2981    chr2L [22811944, 22834955]   |         1 FBgn0002566
+## 2982    chr2L [22841770, 22843208]   |        -1 FBgn0058005
+## 2983    chr2L [22874534, 22885080]   |         1 FBgn0000384
+## 2984    chr2L [22892306, 22918647]   |        -1 FBgn0250907
+## 2985    chr2L [22959606, 22961179]   |        -1 FBgn0086683
+## 2986    chr2L [22961737, 22963456]   |         1 FBgn0262887
+</code></pre>
+
+<p>To find out how many bases cover each position in every chromosome</p>
+
+<pre><code class="r">(cover &lt;- coverage(bamDatFiltered, width = chrSizes))
+</code></pre>
+
+<pre><code>## RleList of length 7
+## $chrM
+## integer-Rle of length 19517 with 953 runs
+##   Lengths:  547   36  913    9   22    5 ...    3    5   13  258   36 5793
+##   Values :    0    1    0    1    2    3 ...    4    3    2    0    1    0
+## 
+## $chr2L
+## integer-Rle of length 23011544 with 17850 runs
+##   Lengths:  6777    36  2316    36  1621 ...   107    36   499    36 50474
+##   Values :     0     1     0     1     0 ...     0     1     0     1     0
+## 
+## $chrX
+## integer-Rle of length 22422827 with 16522 runs
+##   Lengths:  18996     36  12225     36 ...     36    130     36   6180
+##   Values :      0      1      0      1 ...      1      0      1      0
+## 
+## $chr3L
+## integer-Rle of length 24543557 with 17396 runs
+##   Lengths: 135455     36   6783     23 ...     36  82251     36  12469
+##   Values :      0      1      0      1 ...      1      0      1      0
+## 
+## $chr4
+## integer-Rle of length 1351857 with 1255 runs
+##   Lengths:  59510     36   2019     36 ...     36    267     36 118808
+##   Values :      0      1      0      1 ...      1      0      1      0
+## 
+## ...
+## &lt;2 more elements&gt;
+</code></pre>
+
+<p>To aggregate the coverage for each gene</p>
+
+<pre><code class="r">gene.coverage &lt;- aggregate(cover[match(names(gene.range), names(cover))], ranges(gene.range), 
+    sum)
+</code></pre>
+
+<p>To find the number of reads covering each gene</p>
+
+<pre><code class="r">gene.coverage &lt;- ceiling(gene.coverage/unique(width(bamDat)))
+gene.coverage
+</code></pre>
+
+<pre><code>## NumericList of length 1
+## [[&quot;chr2L&quot;]] 1 47 0 0 1 6 0 0 8 11 1 1 58 ... 17 16 1 0 0 0 15 4 0 1 0 6 0
+</code></pre>
+
+<p>To restrict to chr2L</p>
+
+<pre><code class="r">length(gene.coverage[[&quot;chr2L&quot;]])
+</code></pre>
+
+<pre><code>## [1] 2986
+</code></pre>
+
+<pre><code class="r">length(ranges(gene.range)$chr2L)
+</code></pre>
+
+<pre><code>## [1] 2986
+</code></pre>
+
+<p>To build a count table and store it in a data frame</p>
+
+<pre><code class="r">countTable &lt;- data.frame(chromosome = gene.range$space, gene_start = start(gene.range$ranges), 
+    gene_end = end(gene.range$ranges), strand = gene.range$strand, gene = gene.range$gene, 
+    count = as.vector(gene.coverage[[&quot;chr2L&quot;]]))
+dim(countTable)
+</code></pre>
+
+<pre><code>## [1] 2986    6
+</code></pre>
+
+<pre><code class="r">head(countTable)
+</code></pre>
+
+<pre><code>##   chromosome gene_start gene_end strand        gene count
+## 1      chr2L       7529     9484      1 FBgn0031208     1
+## 2      chr2L       9839    21376     -1 FBgn0002121    47
+## 3      chr2L      21823    25155     -1 FBgn0031209     0
+## 4      chr2L      21952    24237      1 FBgn0263584     0
+## 5      chr2L      25402    65404     -1 FBgn0051973     1
+## 6      chr2L      66584    71390      1 FBgn0067779     6
+</code></pre>
+
+<p>To use RPKM (reads per kilobase per million mapped reads)</p>
+
+<pre><code class="r">countTable &lt;- data.frame(chromosome = gene.range$space, gene_start = start(gene.range$ranges), 
+    gene_end = end(gene.range$ranges), strand = gene.range$strand, gene = gene.range$gene, 
+    count = as.vector(gene.coverage[[&quot;chr2L&quot;]]), RPKM = (as.vector(gene.coverage[[&quot;chr2L&quot;]])/(end(gene.range$ranges) - 
+        start(gene.range$ranges))) * (1e+09/length(bamDat)))
+head(countTable)
+</code></pre>
+
+<pre><code>##   chromosome gene_start gene_end strand        gene count    RPKM
+## 1      chr2L       7529     9484      1 FBgn0031208     1  7.9667
+## 2      chr2L       9839    21376     -1 FBgn0002121    47 63.4497
+## 3      chr2L      21823    25155     -1 FBgn0031209     0  0.0000
+## 4      chr2L      21952    24237      1 FBgn0263584     0  0.0000
+## 5      chr2L      25402    65404     -1 FBgn0051973     1  0.3894
+## 6      chr2L      66584    71390      1 FBgn0067779     6 19.4443
+</code></pre>
+
+</body>
+
+</html>
+
